@@ -33,6 +33,7 @@ document.addEventListener('error',e=>{const t=e.target;if(t.tagName=='IMG'&&!t.d
 html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{font-family:'Cairo',sans-serif;background:var(--c);color:#3a2d25;line-height:1.95;overflow-x:hidden}
 h1,h2,h3{font-weight:800}
+section{overflow-x: hidden!important;}
 a{text-decoration:none}
 #pb{position:fixed;top:0;right:0;height:4px;width:0;z-index:2000;background:linear-gradient(90deg,var(--g),var(--t))}
 .fb{position:fixed;z-index:0;width:250px;height:330px;border-radius:200px 200px 22px 22px;border:6px solid var(--g);background:center/cover;opacity:.2;pointer-events:none;will-change:transform}
@@ -95,10 +96,24 @@ a{text-decoration:none}
 #lb .fr{padding:10px}#lb .fr:before{display:none}#lb img{aspect-ratio:auto;max-height:80vh;object-fit:contain;background:#000}
 .lbn,.lbc{position:absolute;top:50%;width:44px;height:44px;border-radius:50%;border:0;background:var(--g);color:var(--k);font-size:1.3rem;transform:translateY(-50%)}
 .lbn.lp{right:-12px}.lbn.ln{left:-12px}.lbc{top:-14px;left:-14px;transform:none;opacity:1;padding:0;background:var(--g) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2315110e'%3E%3Cpath d='M2.1 2.1l11.8 11.8M13.9 2.1L2.1 13.9' stroke='%2315110e' stroke-width='2'/%3E%3C/svg%3E") center/14px no-repeat}
+/* القائمة الجانبية */
+#ov{position:fixed;inset:0;z-index:2100;background:rgba(21,17,14,.7);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .4s,visibility 0s .4s}
+#dr{position:fixed;top:0;bottom:0;left:0;width:min(86vw,330px);z-index:2200;display:flex;flex-direction:column;overflow-y:auto;background:linear-gradient(170deg,var(--k),var(--b));border-right:3px solid var(--g);box-shadow:20px 0 60px rgba(0,0,0,.5);transform:translateX(-100%);visibility:hidden;transition:transform .5s cubic-bezier(.77,0,.18,1),visibility 0s .5s}
+body.mo{overflow:hidden}
+body.mo #ov{opacity:1;visibility:visible;transition-delay:0s}
+body.mo #dr{transform:none;visibility:visible;transition-delay:0s}
+.dh{display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border-bottom:1px solid rgba(201,162,75,.35)}
+#dx{width:42px;height:42px;border-radius:50%;border:2px solid var(--g);background:0;color:var(--g);font-size:1.1rem;transition:.3s}
+#dx:hover{background:var(--g);color:var(--k);transform:rotate(90deg)}
+.dl{padding:14px 12px;flex:1}
+.dl a{display:flex;align-items:center;gap:14px;color:#fff;font-weight:700;padding:13px 16px;border-radius:14px;margin-bottom:4px;opacity:0;transform:translateX(-30px);transition:opacity .4s,transform .4s,background .3s,color .3s}
+body.mo .dl a{opacity:1;transform:none;transition-delay:calc(var(--i)*60ms + 200ms),calc(var(--i)*60ms + 200ms),0s,0s}
+.dl a i{color:var(--g);font-size:1.2rem;width:26px;text-align:center;transition:.3s}
+.dl a:hover,.dl a.active{background:rgba(201,162,75,.15);color:var(--gl)}
+.dl a:hover i{transform:scale(1.3)}.dl a.active{box-shadow:inset -4px 0 0 var(--g)}
+.df{padding:18px 22px 26px;display:grid;gap:10px;border-top:1px solid rgba(201,162,75,.35)}.df a{text-align:center;width:100%}
 @media(max-width:991px){
 .navbar{background:rgba(21,17,14,.96)}
-.offcanvas-lg{background:var(--k);width:290px!important}
-.offcanvas-lg .nav-link{border-bottom:1px solid rgba(201,162,75,.25);padding:.9rem 0}
 .fb{width:120px;height:160px;opacity:.14}.ctab{background-attachment:scroll}
 .fr:before{inset:-10px 10px 10px -10px}}
 @media(max-width:767px){.s{padding:60px 0}.hero{text-align:center}.hero .btn-row{justify-content:center}.fm{padding:22px}.fl{width:50px;height:50px;font-size:1.6rem;left:12px}.fw{bottom:80px}.art p{text-align:start}}
@@ -111,12 +126,18 @@ a{text-decoration:none}
 
 <nav class="navbar navbar-expand-lg fixed-top"><div class="container">
 <a class="brand" href="#home"><i class="bi bi-gem"></i> دار الفخامة</a>
-<button class="tg d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#menu" aria-label="القائمة"><i class="bi bi-list"></i></button>
-<div class="offcanvas-lg offcanvas-start" tabindex="-1" id="menu">
-<div class="offcanvas-header d-lg-none"><span class="brand">دار الفخامة</span><button class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#menu" aria-label="إغلاق"></button></div>
-<div class="offcanvas-body"><ul class="navbar-nav mx-auto">
+<ul class="navbar-nav mx-auto d-none d-lg-flex" id="dn">
 <li class="nav-item"><a class="nav-link" href="#home">الرئيسية</a></li><li class="nav-item"><a class="nav-link" href="#about">من نحن</a></li><li class="nav-item"><a class="nav-link" href="#services">خدماتنا</a></li><li class="nav-item"><a class="nav-link" href="#works">أعمالنا</a></li><li class="nav-item"><a class="nav-link" href="#areas">مناطق الخدمة</a></li><li class="nav-item"><a class="nav-link" href="#article">المقال</a></li><li class="nav-item"><a class="nav-link" href="#faq">الأسئلة</a></li><li class="nav-item"><a class="nav-link" href="#contact">تواصل معنا</a></li></ul>
-<a class="b1" href="tel:0579874010"><i class="bi bi-telephone-fill"></i> 0579874010</a></div></div></div></nav>
+<a class="b1 d-none d-lg-inline-block" href="tel:0579874010"><i class="bi bi-telephone-fill"></i> 0579874010</a>
+<button class="tg d-lg-none" id="mb" aria-label="فتح القائمة" aria-controls="dr" aria-expanded="false"><i class="bi bi-list"></i></button>
+</div></nav>
+
+<div id="ov"></div>
+<aside id="dr" aria-hidden="true" aria-label="القائمة الجانبية">
+<div class="dh"><span class="brand"><i class="bi bi-gem"></i> دار الفخامة</span><button id="dx" aria-label="إغلاق القائمة"><i class="bi bi-x-lg"></i></button></div>
+<nav class="dl" id="dl" aria-label="روابط الموقع"></nav>
+<div class="df"><a class="b1" href="tel:0579874010"><i class="bi bi-telephone-fill"></i> اتصل بنا</a><a class="b2" style="background:#25d366" href="https://wa.me/966579874010" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i> واتساب</a></div>
+</aside>
 
 <!-- 1 -->
 <header class="hero" id="home"><div class="hbg"></div><div class="container"><div class="row"><div class="col-lg-8">
@@ -264,8 +285,18 @@ hb.style.transform=`translate3d(0,${y*.3}px,0)`;
 f1.style.transform=`translate3d(0,${Math.sin(y/450)*90}px,0) rotate(${Math.sin(y/300)*6}deg)`;
 f2.style.transform=`translate3d(0,${Math.cos(y/450)*90}px,0) rotate(${-Math.sin(y/300)*6}deg)`};
 addEventListener('scroll',()=>requestAnimationFrame(onS),{passive:true});onS();
-new bootstrap.ScrollSpy(document.body,{target:'#menu',rootMargin:'-30% 0px -60% 0px'});
-$$('#menu .nav-link').forEach(a=>a.addEventListener('click',()=>{if(innerWidth<992)bootstrap.Offcanvas.getOrCreateInstance('#menu').hide()}));
+/* القائمة الجانبية */
+const NAV=[['home','الرئيسية','bi-house-door'],['about','من نحن','bi-info-circle'],['services','خدماتنا','bi-grid'],['works','أعمالنا','bi-images'],['areas','مناطق الخدمة','bi-geo-alt'],['article','المقال','bi-journal-text'],['faq','الأسئلة','bi-question-circle'],['contact','تواصل معنا','bi-chat-dots']];
+$('#dl').innerHTML=NAV.map((n,i)=>`<a href="#${n[0]}" style="--i:${i}"><i class="bi ${n[2]}"></i>${n[1]}</a>`).join('');
+const dr=$('#dr'),mb=$('#mb'),isO=()=>document.body.classList.contains('mo');
+const op=v=>{document.body.classList.toggle('mo',v);dr.setAttribute('aria-hidden',!v);mb.setAttribute('aria-expanded',v);v?$('#dx').focus():mb.focus()};
+mb.onclick=()=>op(true);$('#dx').onclick=$('#ov').onclick=()=>op(false);
+dr.addEventListener('click',e=>{if(e.target.closest('.dl a,.df a'))op(false)});
+addEventListener('keydown',e=>{if(e.key=='Escape'&&isO())op(false)});
+addEventListener('resize',()=>{if(innerWidth>=992&&isO())op(false)});
+/* تمييز الرابط النشط */
+const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)$$('#dn a,#dl a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')=='#'+e.target.id))}),{rootMargin:'-40% 0px -55% 0px'});
+NAV.forEach(n=>so.observe($('#'+n[0])));
 $('#yr').textContent=new Date().getFullYear();
 </script>
 </body>
